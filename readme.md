@@ -1,10 +1,10 @@
 ```LUA
--- Affiche sa carte identity
+-- Display your identity card
 TriggerServerEvent('gcIdentity:openMeIdentity')
 
--- Montre sa carte identité à la personne la plus proche
+-- Show your identity card to the nearest person
 TriggerServerEvent('gcIdentity:showIdentity'))
 
--- @export, Recupere son identity
+-- @export, Recover your identity
 export.gcidentity:getIdentity()
 ```
