@@ -13,7 +13,9 @@
 
 AddEventHandler('es:playerLoaded', function(source)
     print('identity playerLoaded')
-    local identity = getIdentity(source)
+    getIdentity(source)
+    Wait(100)
+    local identity = identity
     if identity == nil or identity.lastname == '' then
         TriggerClientEvent('gcIdentity:showRegisterIdentity', source)
     else
@@ -21,6 +23,19 @@ AddEventHandler('es:playerLoaded', function(source)
         TriggerClientEvent('gcIdentity:setIdentity', source, convertSQLData(identity))
     end
 end)
+
+function dump(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
+end
 
 function hasIdentity(source)
     local identifier = GetPlayerIdentifiers(source)[1]
@@ -35,9 +50,10 @@ end
 function getIdentity(source)
     local identifier = GetPlayerIdentifiers(source)[1]
     MySQL.Async.fetchAll("SELECT users.* , jobs.job_name AS jobs FROM users JOIN jobs WHERE users.job = jobs.job_id AND users.identifier = @identifier", { ['@identifier'] = identifier }, function (result)             
-        if #result == 1 then
+
+        if result[1] ~= nil then
             result[1]['id'] = source
-            return result[1]
+            identity = result[1]
         else
             return nil
         end
