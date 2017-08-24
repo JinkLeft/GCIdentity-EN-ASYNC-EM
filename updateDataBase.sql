@@ -1,7 +1,7 @@
--- Ajoute des champs poour gcIdentity
+-- add fields for gcIdentity
 ALTER TABLE `users`
-	ADD COLUMN `nom` varchar(128) NOT NULL DEFAULT '' ,
-	ADD COLUMN `prenom` varchar(128) NOT NULL DEFAULT '' ,
-	ADD COLUMN `dateNaissance` date DEFAULT '0000-01-01' ,
-	ADD COLUMN `sexe` varchar(1) NOT NULL DEFAULT 'f' ,
-	ADD COLUMN `taille` int(10) unsigned NOT NULL DEFAULT '0' ;
+	ADD COLUMN `lastname` varchar(128) NOT NULL DEFAULT '' ,
+	ADD COLUMN `firstname` varchar(128) NOT NULL DEFAULT '' ,
+	ADD COLUMN `dateOfBirth` date DEFAULT '1980-01-01' ,
+	ADD COLUMN `sex` varchar(1) NOT NULL DEFAULT 'm' ,
+	ADD COLUMN `height` int(10) unsigned NOT NULL DEFAULT '0' ;

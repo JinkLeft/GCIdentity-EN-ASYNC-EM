@@ -6,29 +6,29 @@ GUIAction = {
     },
     openGuiIdentity (data) {
         data = data || {}
-        let infoMissing = 'Non renseigné'
-        if (data.dateNaissance) {
-            data.dateNaissance = data.dateNaissance.substr(0,11)
+        let infoMissing = 'Not specified'
+        if (data.dateOfBirth) {
+            data.dateOfBirth = data.dateOfBirth.substr(0,11)
         }
-        if (data.sexe !== undefined) {
-            $('#identity').css('background-image', "url('carteV3_" + data.sexe +".png')")
-            data.sexe = data.sexe === 'h' ? 'Homme' : 'Femme'
+        if (data.sex !== undefined) {
+            $('#identity').css('background-image', "url('carteV3_" + data.sex +".png')")
+            data.sex = data.sex === 'h' ? 'Male' : 'Female'
         }
-        if (data.taille !== undefined){
-            data.taille = data.taille + ' cm'
+        if (data.height !== undefined){
+            data.height = data.height + ' in'
         }
-        ['nom','prenom','jobs', 'dateNaissance', 'sexe', 'taille'].forEach(k => {
+        ['name','firstname','jobs', 'dateOfBirth', 'sex', 'height'].forEach(k => {
             $('#'+k).text(data[k] || infoMissing)
         })
         let id = ('000' + data.id).substr(-4)
-        let numCarte = "ID:" + id + "<<" 
+        let cardNumber = "ID:" + id + "<<" 
 
-        numCarte += (data.nom || 'WWWW').substr(0, 4) 
-        numCarte += (data.dateNaissance || '0000001900').substr(6,4)
-        numCarte += "12<<95N3M7Vh4"
-        console.log(numCarte)
+        cardNumber += (data.lastname || 'WWWW').substr(0, 4) 
+        cardNumber += (data.dateOfBirth || '0000001900').substr(6,4)
+        cardNumber += "12<<95N3M7Vh4"
+        console.log(cardNumber)
 
-        $('#numCarte').text(numCarte)
+        $('#cardNumber').text(cardNumber)
         
 
         $('#identity').css("display", "block");
@@ -56,11 +56,11 @@ $(document).ready(function () {
         event.preventDefault()
         let form = event.target
         let data = {}
-        let attrs = ['nom', 'prenom', 'dateNaissance', 'sexe', 'taille']
+        let attrs = ['lastname', 'firstname', 'dateOfBirth', 'sex', 'height']
         attrs.forEach(e => {
             data[e] = form.elements[e].value
         })
-        data.dateNaissance = data.dateNaissance.split('/').reverse().join('-')
+        data.dateOfBirth = data.dateOfBirth.split('/').reverse().join('-')
         $.post('http://gcidentity/' + 'register', JSON.stringify(data))
     })
 })

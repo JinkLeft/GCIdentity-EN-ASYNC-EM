@@ -1,7 +1,7 @@
 --====================================================================================
 -- #Author: Jonathan D @ Gannon
 -- 
--- Développée pour la communauté n3mtv
+-- Developed for the n3mtv community
 --====================================================================================
  
 -- Configuration
@@ -14,7 +14,7 @@ local menuIsOpen = 0
 local myIdentity = {}
  
 --====================================================================================
---  TEMPORAIRE thead interaction
+--  TEMPORARY Thread interaction
 --====================================================================================
  
 Citizen.CreateThread(function()
@@ -57,7 +57,7 @@ AddEventHandler("gcIdentity:openMeIdentity", function()
 end)
  
 --====================================================================================
---  Gestion des evenements Server
+--  Server Event Management
 --====================================================================================
 RegisterNetEvent("gcIdentity:showIdentity")
 AddEventHandler("gcIdentity:showIdentity", function(data)
@@ -82,7 +82,7 @@ RegisterNUICallback('register', function(data, cb)
 end)
  
 --====================================================================================
---  Gestion UI
+-- UI Management
 --====================================================================================
 function openGuiIdentity(data)
   --SetNuiFocus(true)

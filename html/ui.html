@@ -6,41 +6,41 @@
 <body>
 <img id="cursor" src="cursor.png">
 <div id="identity" style="display:none">
-	<span id="nom">John</span>
-	<span id="prenom">O'Sullivan</span>
-	<span id="dateNaissance">14/09/1989</span>
-	<span id="sexe">Homme</span>
-	<span id="taille">175 cm</span>
+	<span id="lastname">John</span>
+	<span id="firstname">O'Sullivan</span>
+	<span id="dateOfBirth">14/09/1989</span>
+	<span id="sex">Male</span>
+	<span id="height">70 in</span>
 	<span id="jobs">Bucheron</span>
-	<span id="numCarte">ID: 1445<<4574571345</span>
+	<span id="cardNumber">ID: 1445<<4574571345</span>
 </div>
 
 <div id="register" style="display:none">
 	<form action="" id="registerFrom">
-	<h1>Enregistrement citoyen</h1>
+	<h1>Citizen Registration</h1>
 	<div class="champ">
-		<label for="nom">Nom :</label>
-		<input type="text" name="nom" required pattern="^[A-Z][A-Za-z \-\']+$" >
+		<label for="lastname">Last Name :</label>
+		<input type="text" name="lastname" required pattern="^[A-Z][A-Za-z \-\']+$" >
 	</div>
 	<div class="champ">
-		<label for="prenom">Prenom :</label>
-		<input type="text" name="prenom" required pattern="^[A-Z][A-Za-z \-\']+$" >
+		<label for="firstname">First Name :</label>
+		<input type="text" name="firstname" required pattern="^[A-Z][A-Za-z \-\']+$" >
 	</div>
 	<div class="champ">
-		<label for="dateNaissance">Date de naissance : (jj/mm/aaaa)</label>
-		<input type="text" name="dateNaissance" required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])\/(0[1-9]|1[012])\/[0-9]{4}">
+		<label for="dateOfBirth">Date of Birth : (dd/mm/yyyy)</label>
+		<input type="text" name="dateOfBirth" required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])\/(0[1-9]|1[012])\/[0-9]{4}">
 	</div>
 	<div class="champ">
-		<label for="sexy">Sexe :</label>
-		<label class="lcheck"><input required type="radio" name="sexe" value="f">Femme</label>
-		<label class="lcheck"><input required type="radio" name="sexe" value="h">Homme</label>
+		<label for="sexy">Sex :</label>
+		<label class="lcheck"><input required type="radio" name="sex" value="f">Female</label>
+		<label class="lcheck"><input required type="radio" name="sex" value="h">Male</label>
 	</div>
 	<div class="champ">
-		<label for="taille">Taille (en cm) :</label>
-		<input  type="number" name="taille" required min="60" max="240">
+		<label for="height">Height (in inches) :</label>
+		<input  type="number" name="height" required min="36" max="84">
 	</div>
 	<div class="clearfix">
-	<button type="submit">Signer et valider</button>
+	<button type="submit">Sign and validate</button>
 	</div>
 	</form>
 </div>

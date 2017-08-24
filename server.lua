@@ -7,44 +7,50 @@
 --      https://www.facebook.com/lan3mtv
 --====================================================================================
 
--- Configuration BDD
-require "resources/essentialmode/lib/MySQL"
-MySQL:open("127.0.0.1", "gta5_gamemode_essential", "root", "monpasse")
-
 --====================================================================================
 --  Teste si un joueurs a donnée ces infomation identitaire
 --====================================================================================
+
+AddEventHandler('es:playerLoaded', function(source)
+    print('identity playerLoaded')
+    local identity = getIdentity(source)
+    if identity == nil or identity.lastname == '' then
+        TriggerClientEvent('gcIdentity:showRegisterIdentity', source)
+    else
+    print('identity setIdentity')
+        TriggerClientEvent('gcIdentity:setIdentity', source, convertSQLData(identity))
+    end
+end)
+
 function hasIdentity(source)
     local identifier = GetPlayerIdentifiers(source)[1]
-    local executed_query, result = MySQL:executeQuery("select nom, prenom from users where identifier = '@identifier'", {
-        ['@identifier'] = identifier
-    })
-    local result = MySQL:getResults(executed_query, {"nom", "prenom"})
-    local user = result[1]
-    return not (user['nom'] == '' or user['prenom'] == '')
+    MySQL.Async.fetchAll("SELECT lastname, firstname FROM users WHERE identifier = @identifier", { ['@identifier'] = identifier }, function (result)
+        if result[1] then
+            local user = result[1]
+            return not (user['lastname'] == '' or user['firstname'] == '')
+        end
+    end)
 end
 
 function getIdentity(source)
     local identifier = GetPlayerIdentifiers(source)[1]
-    local executed_query, result = MySQL:executeQuery("select users.* , jobs.job_name as jobs  from users join jobs WHERE users.job = jobs.job_id and users.identifier = '@identifier'", {
-        ['@identifier'] = identifier
-    })
-    local result = MySQL:getResults(executed_query, {"nom", "prenom", "dateNaissance", "sexe", "taille", "jobs"})
-    if #result == 1 then
-        result[1]['id'] = source
-        return result[1]
-    else
-        return nil
-    end
+    MySQL.Async.fetchAll("SELECT users.* , jobs.job_name AS jobs FROM users JOIN jobs WHERE users.job = jobs.job_id AND users.identifier = @identifier", { ['@identifier'] = identifier }, function (result)             
+        if #result == 1 then
+            result[1]['id'] = source
+            return result[1]
+        else
+            return nil
+        end
+    end)
 end
 
 function setIdentity(identifier, data)
-    MySQL:executeQuery("UPDATE users SET nom = '@nom', prenom = '@prenom', dateNaissance = '@dateNaissance', sexe = '@sexe', taille = '@taille' WHERE identifier = '@identifier'", {
-        ['@nom'] = data.nom,
-        ['@prenom'] = data.prenom,
-        ['@dateNaissance'] = data.dateNaissance,
-        ['@sexe'] = data.sexe,
-        ['@taille'] = data.taille,
+    MySQL.Sync.execute("UPDATE users SET lastname = @lastname, firstname = @firstname, dateOfBirth = @dateOfBirth, sex = @sex, height = @height WHERE identifier = @identifier", {
+        ['@lastname'] = data.lastname,
+        ['@firstname'] = data.firstname,
+        ['@dateOfBirth'] = data.dateOfBirth,
+        ['@sex'] = data.sex,
+        ['@height'] = data.height,
         ['@identifier'] = identifier
     })
     
@@ -52,13 +58,12 @@ end
 
 function convertSQLData(data)
     return {
-        nom = data.nom,
-        prenom = data.prenom,
-        sexe = data.sexe,
-        dateNaissance = tostring(data.dateNaissance),
-        -- dateNaissance = os.date("%x",os.time(data.dateNaissance)), -- mysql async 
+        lastname = data.lastname,
+        firstname = data.firstname,
+        sex = data.sex,
+        dateOfBirth = tostring(data.dateOfBirth),
         jobs = data.jobs,
-        taille = data.taille,
+        height = data.height,
         id = data.id
     }
 end
@@ -68,20 +73,6 @@ function openIdentity(source, data)
         TriggerClientEvent('gcIdentity:showIdentity', source, convertSQLData(data))
     end
 end
-
-AddEventHandler('es:playerLoaded', function(source)
-    print('identity playerLoaded')
-    local identity = getIdentity(source)
-    for k,v in pairs(identity) do 
-        print(k .. ' -> ' .. v)
-    end
-    if identity == nil or identity.nom == '' then
-        TriggerClientEvent('gcIdentity:showRegisterIdentity', source)
-    else
-    print('identity setIdentity')
-        TriggerClientEvent('gcIdentity:setIdentity', source, convertSQLData(identity))
-    end
-end)
 
 RegisterServerEvent('gcIdentity:openIdentity')
 AddEventHandler('gcIdentity:openIdentity',function(other)
