@@ -15,7 +15,7 @@ This is an english translation of the GCIdentity script located here( https://gi
 * identification system 
 
 ### CURRENT KNOWN BUGS ###
-* Jobs error in console not being in DB.
+
 
 ### CURRENT POSSIBLE FEATURES FOR FUTURE RELEASES ###
 *Let me know.
